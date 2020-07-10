@@ -1,13 +1,8 @@
 <template>
   <Layout>
     <Types/>
+    <Amount/>
 
-    <div class="amountWrapper">
-      <ul class="amount">
-        <li>账单金额</li>
-        <li class="output">0.00</li>
-      </ul>
-    </div>
     <div class="tagsWrapper">
       <ul class="tags">
         <li>餐饮</li>
@@ -50,9 +45,10 @@
 
 <script lang="ts">
   import Types from '@/components/Money/Types.vue';
+  import Amount from '@/components/Money/Amount.vue';
   export default {
     name: 'Money',
-    components: {Types},
+    components: {Amount, Types},
   };
 </script>
 
