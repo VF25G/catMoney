@@ -2,21 +2,9 @@
   <Layout>
     <Types/>
     <Amount/>
+    <Tags/>
 
-    <div class="tagsWrapper">
-      <ul class="tags">
-        <TagsItems icon-name="food" name="餐饮"/>
-        <TagsItems icon-name="food" name="餐饮"/>
-        <TagsItems icon-name="food" name="餐饮"/>
-        <TagsItems icon-name="food" name="餐饮"/>
-        <TagsItems icon-name="food" name="餐饮"/>
-        <TagsItems icon-name="food" name="餐饮"/>
-        <TagsItems icon-name="food" name="餐饮"/>
-        <TagsItems icon-name="food" name="餐饮"/>
-        <TagsItems icon-name="food" name="餐饮"/>
-        <TagsItems icon-name="food" name="餐饮"/>
-      </ul>
-    </div>
+
     <div class="notesWrapper">
       <label class="notes">
         <span class="date">今天</span>
@@ -46,26 +34,14 @@
 <script lang="ts">
   import Types from '@/components/Money/Types.vue';
   import Amount from '@/components/Money/Amount.vue';
-  import TagsItems from '@/components/Money/TagsItems.vue';
+  import Tags from '@/components/Money/Tags.vue';
 
   export default {
     name: 'Money',
-    components: {TagsItems, Amount, Types},
+    components: {Tags, Amount, Types},
   };
 </script>
 
 <style lang="scss" scoped>
   @import "~@/assets/style/helper.scss";
-  .tagsWrapper {
-    margin-top: 8px;
-    background: #FFFFFF;
-    .tags {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      overflow: auto;
-      padding: 18px 0;
-    }
-  }
-
 </style>
