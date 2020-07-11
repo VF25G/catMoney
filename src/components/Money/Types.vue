@@ -1,8 +1,10 @@
 <template>
   <div class="typesWrapper">
     <ul class="types">
-      <li class="left selected">流出</li>
-      <li class="right">流入</li>
+      <li class="left" :class="type === '-' && 'selected'"
+      @click="selectType('-')">流出</li>
+      <li class="right" :class="type === '+' && 'selected'"
+      @click="selectType('+')">流入</li>
       <li class="cancel">
         <Icon name="cancel"/>
       </li>
@@ -10,9 +12,22 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
   export default {
-    name: 'Types'
+    name: 'Types',
+    data(){
+      return {
+        type: '-' // '-'支出，'+'收入
+      }
+    },
+    methods: {
+      selectType(type) { // type : '-' or '+'
+        if(type !== '-' && type !== '+') {
+          throw new Error('type is unknown')
+        }
+        this.type = type
+      }
+    }
   };
 </script>
 
