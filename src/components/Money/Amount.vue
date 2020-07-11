@@ -17,16 +17,14 @@
   @import "~@/assets/style/helper.scss";
 
   .amountWrapper {
-    margin-left: 12px;
-    margin-right: 20px;
+    padding: 12px 20px 12px 12px;
+    background: #FFFFFF;
 
     .amount {
       display: flex;
       justify-content: space-between;
       text-align: center;
       font-size: 14px;
-      margin-top: 12px;
-      margin-bottom: 12px;
 
       > li {
         display: flex;

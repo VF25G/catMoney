@@ -13,6 +13,7 @@
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.5;
     color: #333;
+    background: #F8F8F8;
     font-size: 16px;
   }
 </style>
