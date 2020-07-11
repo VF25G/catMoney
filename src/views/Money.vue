@@ -3,14 +3,8 @@
     <Types/>
     <Amount/>
     <Tags/>
+    <Notes/>
 
-
-    <div class="notesWrapper">
-      <label class="notes">
-        <span class="date">今天</span>
-        <input type="text" placeholder="请输入备注信息">
-      </label>
-    </div>
     <div class="numberPad">
       <button>1</button>
       <button>2</button>
@@ -35,10 +29,11 @@
   import Types from '@/components/Money/Types.vue';
   import Amount from '@/components/Money/Amount.vue';
   import Tags from '@/components/Money/Tags.vue';
+  import Notes from '@/components/Money/Notes.vue';
 
   export default {
     name: 'Money',
-    components: {Tags, Amount, Types},
+    components: {Notes, Tags, Amount, Types},
   };
 </script>
 

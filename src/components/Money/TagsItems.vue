@@ -20,6 +20,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-size: 10px;
+    padding: 6px 0;
     color: #2E3544;
     width: 20%;
 
