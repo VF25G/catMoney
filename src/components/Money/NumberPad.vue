@@ -18,7 +18,7 @@
     <button class="ok">确定</button>
     <button>清空</button>
     <button>0</button>
-    <button>.</button>
+    <button>·</button>
   </div>
 </template>
 

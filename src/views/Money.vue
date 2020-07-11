@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="content">
     <Types/>
     <Amount/>
-    <Tags/>
+    <Tags class="tags" />
     <Notes/>
-    <NumberPad/>
+    <NumberPad class="numberPad"/>
   </div>
 </template>
 
@@ -23,4 +23,13 @@
 
 <style lang="scss" scoped>
   @import "~@/assets/style/helper.scss";
+  .content {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .tags {
+      flex-grow: 3;
+    }
+  }
+
 </style>
