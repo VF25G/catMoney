@@ -33,7 +33,7 @@
       flex-direction: row;
       flex-wrap: wrap;
       overflow: auto;
-      padding: 18px 0;
+      padding: 18px;
     }
   }
 </style>
