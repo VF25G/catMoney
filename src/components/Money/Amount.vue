@@ -1,16 +1,27 @@
 <template>
   <div class="amountWrapper">
     <ul class="amount">
-      <li>账单金额</li>
-      <li class="output">0.00</li>
+      <li>金额</li>
+      <li class="output">{{content}}</li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-  export default {
-    name: 'Amount'
-  };
+  import Vue from 'vue';
+  import {Component} from 'vue-property-decorator';
+  import eventBus from '@/components/EventBus';
+
+  @Component
+  export default class Amount extends Vue {
+    content = '0';
+
+    mounted() {
+      eventBus.$on('amountChange', (val: string) => {
+        this.content = val;
+      });
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -34,7 +45,7 @@
       }
 
       > li.output {
-        font-size: 32px;
+        font-size: 28px;
         color: #FF736D;
       }
     }

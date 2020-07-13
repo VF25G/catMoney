@@ -9,13 +9,13 @@
     <button @click="inputContent">4</button>
     <button @click="inputContent">5</button>
     <button @click="inputContent">6</button>
-    <button>
+    <button @click="add">
       <Icon name="add"/>
     </button>
     <button @click="inputContent">7</button>
     <button @click="inputContent">8</button>
     <button @click="inputContent">9</button>
-    <button class="ok">确定{{output}}</button>
+    <button class="ok">确定</button>
     <button @click="clear">清空</button>
     <button @click="inputContent">0</button>
     <button @click="inputContent">.</button>
@@ -24,7 +24,8 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import eventBus from '@/components/EventBus';
+  import {Component, Watch} from 'vue-property-decorator';
 
   @Component
 
@@ -43,12 +44,26 @@
         }
         return;
       }
-      if (this.output.indexOf('.') >= 0 && input === '.') { return; }
+      if (this.output.indexOf('.') >= 0 && input === '.') {
+        if (this.output.indexOf('+') >= 0) {
+          const hasPoint: number = this.output.replace(/[^.]/g, '').length;
+          const isOverTwoPoint: boolean = (hasPoint >= 2);
+          if (isOverTwoPoint) { return; }
+
+          const isPlusSignAfterFloat: boolean = (this.output.indexOf('+') === (this.output.length -1));
+          if(hasPoint === 1 && isPlusSignAfterFloat) {
+            this.output += '0';
+          }
+
+          this.output += input;
+        }
+        return;
+      }
       this.output += input;
     }
 
     remove() {
-      if(this.output.length === 1) {
+      if (this.output.length === 1) {
         this.output = '0';
       } else {
         this.output = this.output.slice(0, -1);
@@ -57,6 +72,45 @@
 
     clear() {
       this.output = '0';
+    }
+
+    add() {
+      if (this.output.indexOf('+') >= 0) {
+        this.stringToNumber();
+        return;
+      }
+      this.output += '+';
+    }
+
+    @Watch('output')
+    onOutputChange(newValue: string) {
+      eventBus.$emit('amountChange', newValue);
+    }
+
+    accAdd(arg1: number, arg2: number) {
+      let r1, r2, m;
+      try {r1 = arg1.toString().split('.')[1].length;} catch (e) {r1 = 0;}
+      try {r2 = arg2.toString().split('.')[1].length;} catch (e) {r2 = 0;}
+      m = Math.pow(10, Math.max(r1, r2));
+      return (arg1 * m + arg2 * m) / m;
+    }
+
+    stringToNumber() {
+      const pointIndex: number = this.output.indexOf('+');
+      const leftNumber: number = parseFloat(this.output.slice(0, pointIndex));
+      const rightNumber: number = parseFloat(this.output.slice(pointIndex, this.output.length));
+
+      if (!rightNumber && rightNumber !== 0) {
+        return;
+      }
+
+      let result: string = this.accAdd(leftNumber, rightNumber).toString();
+      result += '+';
+      this.output = result;
+    }
+
+    isPlusSignBeforePoint() {
+
     }
   }
 </script>
