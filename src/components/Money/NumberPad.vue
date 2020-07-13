@@ -35,6 +35,8 @@
     inputContent(event: MouseEvent) {
       const button = (event.target as HTMLButtonElement);
       const input = button.textContent!;
+      const isPlusSignBeforeFloat: boolean = (this.output.indexOf('+') === (this.output.length -1));
+
       if (this.output.length === 16) { return; }
       if (this.output === '0') {
         if ('0123456789'.indexOf(input) >= 0) {
@@ -50,14 +52,16 @@
           const isOverTwoPoint: boolean = (hasPoint >= 2);
           if (isOverTwoPoint) { return; }
 
-          const isPlusSignAfterFloat: boolean = (this.output.indexOf('+') === (this.output.length -1));
-          if(hasPoint === 1 && isPlusSignAfterFloat) {
+          if(hasPoint === 1 && isPlusSignBeforeFloat) {
             this.output += '0';
           }
 
           this.output += input;
         }
         return;
+      }
+      if(isPlusSignBeforeFloat) {
+        this.output += '0';
       }
       this.output += input;
     }
