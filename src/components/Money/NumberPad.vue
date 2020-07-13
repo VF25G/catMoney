@@ -95,6 +95,9 @@
         this.stringToNumber();
         return;
       }
+      if (this.output.indexOf('.') >= 0 && this.output.indexOf('.') + 1 === this.output.length) {
+        this.output += '0';
+      }
       this.output += '+';
     }
 
