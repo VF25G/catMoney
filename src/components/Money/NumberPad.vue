@@ -31,11 +31,14 @@
 
   export default class NumberPad extends Vue {
     output = '0';
+    isLeftNumberFloat = true;
 
     inputContent(event: MouseEvent) {
       const button = (event.target as HTMLButtonElement);
       const input = button.textContent!;
-      const isPlusSignBeforeFloat: boolean = (this.output.indexOf('+') === (this.output.length -1));
+
+      const isPlusSignBeforeFloatPoint: boolean = (this.output.indexOf('+') === (this.output.length - 1));
+      const hasPoint: number = this.output.replace(/[^.]/g, '').length;
 
       if (this.output.length === 16) { return; }
       if (this.output === '0') {
@@ -46,22 +49,31 @@
         }
         return;
       }
+      if (!this.isLeftNumberFloat && (this.output.indexOf('+') >= 0) && input === '.') {
+        const plusSignIndex = this.output.indexOf('+');
+        const afterPlusSignChar = this.output.slice(plusSignIndex + 1, this.output.length);
+
+        if (afterPlusSignChar === '0') {
+          this.output += input;
+          return;
+        }
+
+        if (this.output.indexOf('.') >= 0) { return; }
+
+        this.output += '0';
+      }
       if (this.output.indexOf('.') >= 0 && input === '.') {
         if (this.output.indexOf('+') >= 0) {
-          const hasPoint: number = this.output.replace(/[^.]/g, '').length;
           const isOverTwoPoint: boolean = (hasPoint >= 2);
           if (isOverTwoPoint) { return; }
 
-          if(hasPoint === 1 && isPlusSignBeforeFloat) {
+          if (this.isLeftNumberFloat && isPlusSignBeforeFloatPoint) {
             this.output += '0';
           }
 
           this.output += input;
         }
         return;
-      }
-      if(isPlusSignBeforeFloat) {
-        this.output += '0';
       }
       this.output += input;
     }
@@ -89,6 +101,13 @@
     @Watch('output')
     onOutputChange(newValue: string) {
       eventBus.$emit('amountChange', newValue);
+    }
+
+    @Watch('output')
+    leftNumberType(newValue: string) {
+      if (newValue.indexOf('+') === (newValue.length - 1)) {
+        this.isLeftNumberFloat = (newValue.indexOf('.') >= 0);
+      }
     }
 
     accAdd(arg1: number, arg2: number) {
