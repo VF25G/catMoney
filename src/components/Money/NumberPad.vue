@@ -36,6 +36,7 @@
     inputContent(event: MouseEvent) {
       const button = (event.target as HTMLButtonElement);
       const input = button.textContent!;
+      const context: string = this.output + input;
 
       const isPlusSignBeforeFloatPoint: boolean = (this.output.indexOf('+') === (this.output.length - 1));
       const hasPoint: number = this.output.replace(/[^.]/g, '').length;
@@ -48,6 +49,13 @@
           this.output += input;
         }
         return;
+      }
+      if (context.indexOf('+')) {
+        const pointIndex: number = context.indexOf('+');
+        const rightNumberString = context.slice(pointIndex + 1, context.length);
+        if (rightNumberString === '00') {
+          return;
+        }
       }
       if (!this.isLeftNumberFloat && (this.output.indexOf('+') >= 0) && input === '.') {
         const plusSignIndex = this.output.indexOf('+');
@@ -95,6 +103,7 @@
         this.stringToNumber();
         return;
       }
+      // 判断浮点数的小数点后面，是否有小数部分。
       if (this.output.indexOf('.') >= 0 && this.output.indexOf('.') + 1 === this.output.length) {
         this.output += '0';
       }
