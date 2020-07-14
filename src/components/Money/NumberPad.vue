@@ -15,7 +15,9 @@
     <button @click="inputContent">7</button>
     <button @click="inputContent">8</button>
     <button @click="inputContent">9</button>
-    <button class="ok">确定</button>
+    <button :class="okOrEqualSingClass" @click="ok">
+      <Icon v-if="calculating" name="equals"/>
+      <span v-else>确定</span></button>
     <button @click="clear">清空</button>
     <button @click="inputContent">0</button>
     <button @click="inputContent">.</button>
@@ -32,6 +34,8 @@
   export default class NumberPad extends Vue {
     output = '0';
     isLeftNumberFloat = true;
+    okOrEqualSingClass = 'ok';
+    calculating = false;
 
     inputContent(event: MouseEvent) {
       const button = (event.target as HTMLButtonElement);
@@ -99,9 +103,21 @@
       this.output = '0';
     }
 
+    ok() {
+      if (this.calculating) {
+        this.calculating = false;
+        this.okOrEqualSingClass = 'ok';
+        this.stringToNumber(true);
+      }
+    }
+
     add() {
+      if (!this.calculating) {
+        this.calculating = true;
+        this.okOrEqualSingClass = 'equalSign';
+      }
       if (this.output.indexOf('+') >= 0) {
-        this.stringToNumber();
+        this.stringToNumber(false);
         return;
       }
       // 判断浮点数的小数点后面，是否有小数部分。
@@ -131,17 +147,24 @@
       return (arg1 * m + arg2 * m) / m;
     }
 
-    stringToNumber() {
+    stringToNumber(calculated: boolean) {
       const pointIndex: number = this.output.indexOf('+');
       const leftNumber: number = parseFloat(this.output.slice(0, pointIndex));
       const rightNumber: number = parseFloat(this.output.slice(pointIndex, this.output.length));
 
       if (!rightNumber && rightNumber !== 0) {
+        // 点击等号后，去掉「number+ 」中的+号
+        this.output = this.output.replace('+', '');
         return;
       }
 
+
       let result: string = this.accAdd(leftNumber, rightNumber).toString();
-      result += '+';
+
+      if (!calculated) {
+        result += '+';
+      }
+
       this.output = result;
     }
   }
@@ -167,24 +190,32 @@
       &.ok {
         height: 56*2px;
         float: right;
+        background: #57CDE1;
+        color: #FFFFFF;
+        font-size: 26px;
+      }
+
+      &.equalSign {
+        height: 56*2px;
+        float: right;
+        background: #FFE7E4;
+        color: #A45240;
+        font-size: 38px;
       }
 
       &:nth-child(12) {
-        font-size: 26px;
         border: none;
-        background: #57CDE1;
-        color: #FFFFFF;
       }
 
       &:nth-child(13) {
         font-size: 20px;
       }
 
-      &:nth-child(8) {
-        border: none;
-      }
+      /*&:nth-child(8) {*/
+      /*  border: none;*/
+      /*}*/
 
-      &:nth-child(4), &:nth-child(8), &:nth-child(11), &:nth-child(15) {
+      &:nth-child(4), &:nth-child(8) {
         border-right: none;
       }
 
