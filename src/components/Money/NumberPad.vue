@@ -50,10 +50,11 @@
         }
         return;
       }
-      if (context.indexOf('+')) {
+      if (context.indexOf('+')) { // Fixed number+0000
         const pointIndex: number = context.indexOf('+');
         const rightNumberString = context.slice(pointIndex + 1, context.length);
-        if (rightNumberString === '00') {
+        const zeroArray: string[] = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09'];
+        if (zeroArray.indexOf(rightNumberString) >= 0) {
           return;
         }
       }
