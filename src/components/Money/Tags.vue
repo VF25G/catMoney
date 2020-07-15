@@ -1,15 +1,7 @@
 <template>
   <div class="tagsWrapper">
     <ul class="tags">
-      <TagsItems icon-name="food" name="餐饮"/>
-      <TagsItems icon-name="food" name="餐饮"/>
-      <TagsItems icon-name="food" name="餐饮"/>
-      <TagsItems icon-name="food" name="餐饮"/>
-      <TagsItems icon-name="food" name="餐饮"/>
-      <TagsItems icon-name="food" name="餐饮"/>
-      <TagsItems icon-name="food" name="餐饮"/>
-      <TagsItems icon-name="food" name="餐饮"/>
-      <TagsItems icon-name="food" name="餐饮"/>
+      <TagsItems v-for="(value, index) in dataSource" :key="index" :icon-name="value.icon" :name="value.name"/>
       <TagsItems icon-name="append" name="添加"/>
     </ul>
   </div>
