@@ -28,11 +28,11 @@
   .tagsWrapper {
     margin-top: 8px;
     background: #FFFFFF;
+    overflow: auto;
     .tags {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      overflow: auto;
       padding: 18px;
     }
   }
