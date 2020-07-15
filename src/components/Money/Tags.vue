@@ -10,17 +10,23 @@
       <TagsItems icon-name="food" name="餐饮"/>
       <TagsItems icon-name="food" name="餐饮"/>
       <TagsItems icon-name="food" name="餐饮"/>
-      <TagsItems icon-name="food" name="餐饮"/>
+      <TagsItems icon-name="append" name="添加"/>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
+  import Vue from 'vue';
   import TagsItems from '@/components/Money/TagsItems.vue';
-  export default {
-    name: 'Tags',
-    components: {TagsItems},
-  };
+  import {Component, Prop} from 'vue-property-decorator';
+
+
+  @Component({
+    components: {TagsItems}
+  })
+  export default class Tags extends Vue {
+    @Prop() readonly dataSource: object[] | undefined;
+  }
 </script>
 
 <style lang="scss" scoped>
