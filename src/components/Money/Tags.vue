@@ -1,8 +1,14 @@
 <template>
   <div class="tagsWrapper">
     <ul class="tags">
-      <TagsItems v-for="(value, index) in dataSource" :key="index" :icon-name="value.icon" :name="value.name"/>
-      <TagsItems icon-name="append" name="添加"/>
+      <TagsItems v-for="(value, index) in dataSource"
+                 :key="index"
+                 @click.native="setSelectedIndex(index)"
+                 :class="selectedIndex === index ?
+                                           'selected' :
+                                           ''"
+                 :icon-name="value.icon" :name="value.name"/>
+      <TagsItems class="append" icon-name="append" name="添加"/>
     </ul>
   </div>
 </template>
@@ -18,20 +24,47 @@
   })
   export default class Tags extends Vue {
     @Prop() readonly dataSource: object[] | undefined;
+    itemIndex = 0;
+
+    get selectedIndex(): number {
+      return this.itemIndex;
+    }
+
+    setSelectedIndex(index: number) {
+      this.itemIndex = index;
+    }
   }
 </script>
 
 <style lang="scss" scoped>
   @import "~@/assets/style/helper.scss";
+
   .tagsWrapper {
     margin-top: 8px;
     background: #FFFFFF;
     overflow: auto;
+
     .tags {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       padding: 18px;
+    }
+  }
+</style>
+
+<style lang="scss">
+  .tagsWrapper {
+    .tags {
+      .selected {
+        .circleIcon {
+          background: #FF736D;
+
+          .icon {
+            color: #FFFFFF;
+          }
+        }
+      }
     }
   }
 </style>

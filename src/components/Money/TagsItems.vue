@@ -8,10 +8,14 @@
 </template>
 
 <script lang="ts">
-  export default {
-    props: ['name', 'iconName'],
-    name: 'TagsItems'
-  };
+  import Vue from 'vue';
+  import {Component, Prop} from 'vue-property-decorator';
+
+  @Component
+  export default class TagsItems extends Vue {
+    @Prop() name!: string;
+    @Prop() iconName!: string;
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -29,15 +33,15 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 30px;
-      height: 30px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: #FF736D;
+      background: #F2F2F2;
 
       .icon {
-        width: 20px;
-        height: 20px;
-        color: #FFFFFF;
+        width: 30px;
+        height: 30px;
+        color: #919191;
       }
     }
   }
