@@ -16,7 +16,8 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Watch} from 'vue-property-decorator';
+  import eventBus from '@/components/EventBus';
 
   @Component
 
@@ -28,7 +29,10 @@
       }
       this.type = type;
     }
-
+    @Watch('type')
+    typeChanged(newValue: string) {
+      eventBus.$emit('setType', newValue);
+    }
   }
 </script>
 

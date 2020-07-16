@@ -4,9 +4,8 @@
       <TagsItems v-for="(value, index) in dataSource"
                  :key="index"
                  @click.native="setSelectedIndex(index)"
-                 :class="selectedIndex === index ?
-                                           'selected' :
-                                           ''"
+                 :class="[selectedIndex === index ? 'selected' : '',
+                          currentType === '+' ? 'income' : '']"
                  :icon-name="value.icon" :name="value.name"/>
       <TagsItems class="append" icon-name="append" name="添加"/>
     </ul>
@@ -24,6 +23,7 @@
   })
   export default class Tags extends Vue {
     @Prop() readonly dataSource: object[] | undefined;
+    @Prop() readonly currentType!: string;
     itemIndex = 0;
 
     get selectedIndex(): number {
@@ -59,7 +59,14 @@
       .selected {
         .circleIcon {
           background: #FF736D;
-
+          .icon {
+            color: #FFFFFF;
+          }
+        }
+      }
+      .selected.income {
+        .circleIcon {
+          background: #00D795;
           .icon {
             color: #FFFFFF;
           }

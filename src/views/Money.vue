@@ -2,7 +2,9 @@
   <div class="content">
     <Types/>
     <Amount/>
-    <Tags :data-source="disburseTagsList"/>
+    <Tags :data-source="currentType === '-'?
+                        disburseTagsList:
+                        receiptTagsList" :current-type="currentType"/>
     <Notes/>
     <NumberPad class="numberPad"/>
   </div>
@@ -16,11 +18,13 @@
   import Notes from '@/components/Money/Notes.vue';
   import NumberPad from '@/components/Money/NumberPad.vue';
   import {Component} from 'vue-property-decorator';
+  import eventBus from '@/components/EventBus';
 
   @Component({
     components: {NumberPad, Notes, Tags, Amount, Types}
   })
   export default class Money extends Vue {
+
     disburseTagsList = [
       {icon:'food', name:'餐饮'},
       {icon:'snacks', name:'烟酒零食'},
@@ -46,6 +50,12 @@
       {icon:'windfall', name:'意外所得'}
     ];
 
+    currentType = '-';
+    mounted() {
+      eventBus.$on('setType', (val: string) => {
+        this.currentType = val;
+      });
+    }
   }
 </script>
 
