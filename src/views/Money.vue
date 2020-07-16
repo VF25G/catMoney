@@ -8,7 +8,7 @@
                         receiptTagsList"
           class="tags"/>
     <div>{{record}}</div>
-    <Notes/>
+    <Notes :value.sync="record.notes"/>
     <NumberPad :value.sync="record.amount" class="numberPad"/>
   </div>
 </template>
