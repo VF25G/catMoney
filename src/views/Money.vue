@@ -9,6 +9,7 @@
                         receiptTagsList"
           class="tags"/>
     <Notes :value.sync="record.notes"/>
+    <div>{{recordList}}</div>
     <NumberPad :value.sync="record.amount" @submit="saveRecord" class="numberPad"/>
   </div>
 </template>
@@ -22,24 +23,17 @@
   import NumberPad from '@/components/Money/NumberPad.vue';
   import {Component, Watch} from 'vue-property-decorator';
   import eventBus from '@/components/EventBus';
+  import model from '@/model';
 
-  const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
-
-  type Record = {
-    tags: string;
-    notes: string;
-    type: string;
-    amount: number;
-    createAt?: Date;
-  }
+  const recordList = model.fetch();
 
   @Component({
     components: {NumberPad, Notes, Tags, Amount, Types}
   })
   export default class Money extends Vue {
 
-    recordList: Record[] = recordList;
-    record: Record = {
+    recordList: RecordItem[] = recordList;
+    record: RecordItem = {
       // 能力有限，Tags.vue默认选择餐饮，暂时没想到更好的方案。
       // tags需初始化为'餐饮'
       tags: '餐饮', notes: '', type: '-', amount: 0
@@ -79,14 +73,14 @@
     }
 
     saveRecord() {
-      const tempRecord: Record = JSON.parse(JSON.stringify(this.record));
+      const tempRecord: RecordItem = model.clone(this.record);
       tempRecord.createAt = new Date();
       this.recordList.push(tempRecord);
     }
 
     @Watch('recordList')
-    onRecordListChange(){
-      window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+    onRecordListChange() {
+      model.save(this.recordList);
     }
   }
 </script>
