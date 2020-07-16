@@ -3,6 +3,7 @@
     <ul class="tags">
       <TagsItems v-for="(value, index) in dataSource"
                  :key="index"
+                 ref="selectedItem"
                  @click.native="setSelectedIndex(index)"
                  :class="[selectedIndex === index ? 'selected' : '',
                           currentType === '+' ? 'income' : '']"
@@ -15,8 +16,14 @@
 <script lang="ts">
   import Vue from 'vue';
   import TagsItems from '@/components/Money/TagsItems.vue';
-  import {Component, Prop} from 'vue-property-decorator';
+  import {Component, Prop, Watch} from 'vue-property-decorator';
 
+  // fixed TS7053 warning
+  interface ObjectMap {
+    [key: string]: any;
+
+    [index: number]: any;
+  }
 
   @Component({
     components: {TagsItems}
@@ -25,13 +32,37 @@
     @Prop() readonly dataSource: object[] | undefined;
     @Prop() readonly currentType!: string;
     itemIndex = 0;
+    currentTagName = '餐饮';
 
     get selectedIndex(): number {
       return this.itemIndex;
     }
 
-    setSelectedIndex(index: number) {
+    mounted() {
+      console.log("mounted: " + this.currentTagName);
+    }
+    updated() {
+      console.log("updated: " + this.currentTagName);
+    }
+
+    setSelectedIndex(index: number,) {
+      this.switchTagName(index)
       this.itemIndex = index;
+    }
+
+    switchTagName(index: number) {
+      const selectedTag: ObjectMap = this.dataSource![index];
+      this.currentTagName = selectedTag['name'];
+    }
+
+    @Watch('currentType')
+    typeChange(newValue: string) {
+      this.itemIndex = 0;
+      if(newValue === '+') {
+        this.currentTagName = '薪资'
+      } else {
+        this.currentTagName = '餐饮'
+      }
     }
   }
 </script>
@@ -59,14 +90,17 @@
       .selected {
         .circleIcon {
           background: #FF736D;
+
           .icon {
             color: #FFFFFF;
           }
         }
       }
+
       .selected.income {
         .circleIcon {
           background: #00D795;
+
           .icon {
             color: #FFFFFF;
           }
