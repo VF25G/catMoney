@@ -8,9 +8,8 @@
                         disburseTagsList:
                         receiptTagsList"
           class="tags"/>
-    <div>{{record}}</div>
     <Notes :value.sync="record.notes"/>
-    <NumberPad :value.sync="record.amount" class="numberPad"/>
+    <NumberPad :value.sync="record.amount" @submit="saveRecord" class="numberPad"/>
   </div>
 </template>
 
@@ -21,8 +20,10 @@
   import Tags from '@/components/Money/Tags.vue';
   import Notes from '@/components/Money/Notes.vue';
   import NumberPad from '@/components/Money/NumberPad.vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Watch} from 'vue-property-decorator';
   import eventBus from '@/components/EventBus';
+
+  const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
 
   type Record = {
     tags: string;
@@ -37,12 +38,12 @@
   })
   export default class Money extends Vue {
 
+    recordList: Record[] = recordList;
     record: Record = {
       // 能力有限，Tags.vue默认选择餐饮，暂时没想到更好的方案。
       // tags需初始化为'餐饮'
       tags: '餐饮', notes: '', type: '-', amount: 0
     };
-
 
     disburseTagsList = [
       {icon: 'food', name: '餐饮'},
@@ -75,6 +76,17 @@
       eventBus.$on('setType', (val: string) => {
         this.selectedType = val;
       });
+    }
+
+    saveRecord() {
+      const tempRecord: Record = JSON.parse(JSON.stringify(this.record));
+      tempRecord.createAt = new Date();
+      this.recordList.push(tempRecord);
+    }
+
+    @Watch('recordList')
+    onRecordListChange(){
+      window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
     }
   }
 </script>
