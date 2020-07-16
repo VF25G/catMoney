@@ -8,7 +8,9 @@
           @click="selectType('+')">流入
       </li>
       <li class="cancel">
-        <Icon name="cancel"/>
+        <router-link class="routerLink" to="/statistics">
+          <Icon name="cancel"/>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -29,6 +31,7 @@
       }
       this.type = type;
     }
+
     @Watch('type')
     typeChanged(newValue: string) {
       eventBus.$emit('setType', newValue);
@@ -77,12 +80,16 @@
 
       > li.cancel {
         position: absolute;
-        right: 10px;
         border: none;
+        right: 10px;
 
-        > .icon {
+        .routerLink {
           width: 20px;
           height: 20px;
+          .icon {
+            width: 20px;
+            height: 20px;
+          }
         }
       }
     }

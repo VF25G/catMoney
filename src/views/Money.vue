@@ -2,9 +2,10 @@
   <div class="content">
     <Types/>
     <Amount :current-type="selectedType"/>
-    <Tags :data-source="selectedType === '-'?
+    <Tags :current-type="selectedType"
+          :data-source="selectedType === '-'?
                         disburseTagsList:
-                        receiptTagsList" :current-type="selectedType"/>
+                        receiptTagsList"/>
     <Notes/>
     <NumberPad class="numberPad"/>
   </div>
