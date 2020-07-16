@@ -2,18 +2,19 @@
   <div class="amountWrapper">
     <ul class="amount">
       <li>金额</li>
-      <li class="output">{{content}}</li>
+      <li class="output" :class="currentType === '+' ? 'income' : ''">{{content}}</li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Prop} from 'vue-property-decorator';
   import eventBus from '@/components/EventBus';
 
   @Component
   export default class Amount extends Vue {
+    @Prop() readonly currentType!: string;
     content = '0';
 
     mounted() {
@@ -47,6 +48,10 @@
       > li.output {
         font-size: 28px;
         color: #FF736D;
+      }
+      > li.output.income {
+        font-size: 28px;
+        color: #00AB7C;
       }
     }
   }

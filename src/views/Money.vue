@@ -1,10 +1,10 @@
 <template>
   <div class="content">
     <Types/>
-    <Amount/>
-    <Tags :data-source="currentType === '-'?
+    <Amount :current-type="selectedType"/>
+    <Tags :data-source="selectedType === '-'?
                         disburseTagsList:
-                        receiptTagsList" :current-type="currentType"/>
+                        receiptTagsList" :current-type="selectedType"/>
     <Notes/>
     <NumberPad class="numberPad"/>
   </div>
@@ -50,10 +50,10 @@
       {icon:'windfall', name:'意外所得'}
     ];
 
-    currentType = '-';
+    selectedType = '-';
     mounted() {
       eventBus.$on('setType', (val: string) => {
-        this.currentType = val;
+        this.selectedType = val;
       });
     }
   }
