@@ -30,6 +30,7 @@
         throw new Error('type is unknown');
       }
       this.type = type;
+      this.$emit('update:value', type)
     }
 
     @Watch('type')

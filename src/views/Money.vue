@@ -1,12 +1,13 @@
 <template>
   <div class="content">
-    <Types/>
+    <Types :value.sync="record.type"/>
     <Amount :current-type="selectedType"/>
     <Tags :current-type="selectedType"
           :data-source="selectedType === '-'?
                         disburseTagsList:
                         receiptTagsList"
           class="tags"/>
+    <div>{{record}}</div>
     <Notes/>
     <NumberPad class="numberPad"/>
   </div>
@@ -22,10 +23,23 @@
   import {Component} from 'vue-property-decorator';
   import eventBus from '@/components/EventBus';
 
+  type Record = {
+    tags: string;
+    notes: string;
+    type: string;
+    amount: number;
+    createAt?: Date;
+  }
+
   @Component({
     components: {NumberPad, Notes, Tags, Amount, Types}
   })
   export default class Money extends Vue {
+
+    record: Record = {
+      tags: '', notes: '', type: '-', amount: 0
+    };
+
 
     disburseTagsList = [
       {icon: 'food', name: '餐饮'},
