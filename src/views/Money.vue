@@ -9,7 +9,7 @@
           class="tags"/>
     <div>{{record}}</div>
     <Notes/>
-    <NumberPad class="numberPad"/>
+    <NumberPad :value.sync="record.amount" class="numberPad"/>
   </div>
 </template>
 

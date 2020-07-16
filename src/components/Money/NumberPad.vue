@@ -108,6 +108,8 @@
         this.calculating = false;
         this.okOrEqualSingClass = 'ok';
         this.stringToNumber(true);
+      } else {
+        this.$emit('update:value', this.output);
       }
     }
 
