@@ -39,14 +39,15 @@
     }
 
     mounted() {
-      console.log("mounted: " + this.currentTagName);
+      console.log('mounted: ' + this.currentTagName);
     }
+
     updated() {
-      console.log("updated: " + this.currentTagName);
+      console.log('updated: ' + this.currentTagName);
     }
 
     setSelectedIndex(index: number,) {
-      this.switchTagName(index)
+      this.switchTagName(index);
       this.itemIndex = index;
     }
 
@@ -58,12 +59,19 @@
     @Watch('currentType')
     typeChange(newValue: string) {
       this.itemIndex = 0;
-      if(newValue === '+') {
-        this.currentTagName = '薪资'
+      if (newValue === '+') {
+        this.currentTagName = '薪资';
       } else {
-        this.currentTagName = '餐饮'
+        this.currentTagName = '餐饮';
       }
     }
+
+    @Watch('currentTagName')
+    outputTypeName(newValue: string) {
+      this.$emit('update:value', newValue);
+    }
+
+
   }
 </script>
 

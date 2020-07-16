@@ -2,7 +2,8 @@
   <div class="content">
     <Types :value.sync="record.type"/>
     <Amount :current-type="selectedType"/>
-    <Tags :current-type="selectedType"
+    <Tags :value.sync="record.tags"
+          :current-type="selectedType"
           :data-source="selectedType === '-'?
                         disburseTagsList:
                         receiptTagsList"
@@ -37,7 +38,9 @@
   export default class Money extends Vue {
 
     record: Record = {
-      tags: '', notes: '', type: '-', amount: 0
+      // 能力有限，Tags.vue默认选择餐饮，暂时没想到更好的方案。
+      // tags需初始化为'餐饮'
+      tags: '餐饮', notes: '', type: '-', amount: 0
     };
 
 
@@ -67,6 +70,7 @@
     ];
 
     selectedType = '-';
+
     mounted() {
       eventBus.$on('setType', (val: string) => {
         this.selectedType = val;
