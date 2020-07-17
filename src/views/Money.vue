@@ -9,7 +9,6 @@
                         receiptTagsList"
           class="tags"/>
     <Notes :value.sync="record.notes"/>
-    <div>{{recordList}}</div>
     <NumberPad :value.sync="record.amount" @submit="saveRecord" class="numberPad"/>
   </div>
 </template>
