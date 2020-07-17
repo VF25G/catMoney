@@ -23,8 +23,10 @@
   import {Component, Watch} from 'vue-property-decorator';
   import eventBus from '@/components/EventBus';
   import recordListModel from '@/modles/recordListModel';
+  import tagListModel from '@/modles/tagListModel';
 
   const recordList = recordListModel.fetch();
+  const tagList = tagListModel.fetch();
 
   @Component({
     components: {NumberPad, Notes, Tags, Amount, Types}

@@ -25,9 +25,17 @@
 </template>
 
 <script lang="ts">
-  export default {
-    name: 'Labels'
-  };
+  import Vue from 'vue';
+  import {Component} from 'vue-property-decorator';
+  import tagListModel from '@/modles/tagListModel';
+
+  const tags = tagListModel.fetch();
+  console.log(tags);
+
+  @Component
+  export default class Labels extends Vue {
+
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -35,13 +43,15 @@
     background: white;
     font-size: 16px;
     padding-left: 16px;
+
     > li {
       min-height: 44px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid #e6e6e6;
-      svg{
+
+      svg {
         width: 18px;
         height: 18px;
         color: #666;
@@ -49,6 +59,7 @@
       }
     }
   }
+
   .createTag {
     background: #767676;
     color: white;
@@ -56,6 +67,7 @@
     border: none;
     height: 40px;
     padding: 0 16px;
+
     &-wrapper {
       text-align: center;
       padding: 16px;
