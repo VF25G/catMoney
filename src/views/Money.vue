@@ -22,9 +22,9 @@
   import NumberPad from '@/components/Money/NumberPad.vue';
   import {Component, Watch} from 'vue-property-decorator';
   import eventBus from '@/components/EventBus';
-  import model from '@/model';
+  import recordListModel from '@/modles/recordListModel';
 
-  const recordList = model.fetch();
+  const recordList = recordListModel.fetch();
 
   @Component({
     components: {NumberPad, Notes, Tags, Amount, Types}
@@ -72,14 +72,14 @@
     }
 
     saveRecord() {
-      const tempRecord: RecordItem = model.clone(this.record);
+      const tempRecord: RecordItem = recordListModel.clone(this.record);
       tempRecord.createAt = new Date();
       this.recordList.push(tempRecord);
     }
 
     @Watch('recordList')
     onRecordListChange() {
-      model.save(this.recordList);
+      recordListModel.save(this.recordList);
     }
   }
 </script>
