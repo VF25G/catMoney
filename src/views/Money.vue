@@ -8,7 +8,7 @@
                         disburseTagsList:
                         receiptTagsList"
           class="tags"/>
-    <Notes field-name="备注" placeholder="请输入备注信息" :value.sync="record.notes"/>
+    <FormItem field-name="备注" placeholder="请输入备注信息" :value.sync="record.notes"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord" class="numberPad"/>
   </div>
 </template>
@@ -18,7 +18,7 @@
   import Types from '@/components/Money/Types.vue';
   import Amount from '@/components/Money/Amount.vue';
   import Tags from '@/components/Money/Tags.vue';
-  import Notes from '@/components/Money/Notes.vue';
+  import FormItem from '@/components/Money/FormItem.vue';
   import NumberPad from '@/components/Money/NumberPad.vue';
   import {Component, Watch} from 'vue-property-decorator';
   import eventBus from '@/components/EventBus';
@@ -29,7 +29,7 @@
   const tagList = tagListModel.fetch();
 
   @Component({
-    components: {NumberPad, Notes, Tags, Amount, Types}
+    components: {NumberPad, FormItem, Tags, Amount, Types}
   })
   export default class Money extends Vue {
 
