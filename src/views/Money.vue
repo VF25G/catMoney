@@ -8,7 +8,7 @@
                         disburseTagsList:
                         receiptTagsList"
           class="tags"/>
-    <Notes :value.sync="record.notes"/>
+    <Notes field-name="备注" placeholder="请输入备注信息" :value.sync="record.notes"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord" class="numberPad"/>
   </div>
 </template>

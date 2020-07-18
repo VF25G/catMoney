@@ -1,22 +1,26 @@
 <template>
   <div class="notesWrapper">
     <label class="notes">
-      <Icon name="date"/>
-      <span class="date">今天</span>
+<!--      <Icon name="date"/>-->
+      <span class="date">{{fieldName}}</span>
       <input type="text"
              v-model="value"
-             placeholder="请输入备注信息">
+             :placeholder="placeholder">
     </label>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Watch} from 'vue-property-decorator';
+  import {Component, Prop, Watch} from 'vue-property-decorator';
 
   @Component
   export default class Notes extends Vue {
     value = '';
+
+    @Prop({required: true}) fieldName!: string;
+    @Prop() placeholder?: string;
+    //@Prop({required: true}) needDateIcon!: boolean;
 
     @Watch('value')
     onValueChanged(newValue: string) {
