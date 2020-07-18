@@ -74,14 +74,12 @@
     }
 
     saveRecord() {
-      const tempRecord: RecordItem = recordListModel.clone(this.record);
-      tempRecord.createAt = new Date();
-      this.recordList.push(tempRecord);
+      recordListModel.create(this.record);
     }
 
     @Watch('recordList')
     onRecordListChange() {
-      recordListModel.save(this.recordList);
+      recordListModel.save();
     }
   }
 </script>
