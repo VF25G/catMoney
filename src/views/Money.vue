@@ -22,13 +22,14 @@
   import NumberPad from '@/components/Money/NumberPad.vue';
   import {Component} from 'vue-property-decorator';
   import eventBus from '@/components/EventBus';
+  import store from '@/store/index2';
 
   @Component({
     components: {NumberPad, FormItem, Tags, Amount, Types}
   })
   export default class Money extends Vue {
 
-    recordList = window.recordList;
+    recordList = store.recordList;
     record: RecordItem = {
       // 能力有限，Tags.vue默认选择餐饮，暂时没想到更好的方案。
       // tags需初始化为'餐饮'
@@ -69,7 +70,7 @@
     }
 
     saveRecord() {
-      window.createRecord(this.record);
+      store.createRecord(this.record);
     }
   }
 </script>
