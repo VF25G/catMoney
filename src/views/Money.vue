@@ -95,6 +95,11 @@
     flex-direction: column;
   }
 
+  .fromWrapper {
+    background: #FFFFFF;
+    padding: 12px 0;
+  }
+
   // tags 内容区域自动拉伸
   .tags {
     flex-grow: 3;

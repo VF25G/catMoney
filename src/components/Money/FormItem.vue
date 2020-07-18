@@ -1,7 +1,7 @@
 <template>
-  <div class="notesWrapper">
+  <div class="fromWrapper">
     <label class="notes">
-<!--      <Icon name="date"/>-->
+      <!--      <Icon name="date"/>-->
       <span class="date">{{fieldName}}</span>
       <input type="text"
              v-model="value"
@@ -32,9 +32,7 @@
 <style lang="scss" scoped>
   @import "~@/assets/style/helper.scss";
 
-  .notesWrapper {
-    background: #FFFFFF;
-
+  .fromWrapper {
     .notes {
       display: flex;
       align-items: center;
@@ -54,7 +52,7 @@
       }
 
       input {
-        height: 64px;
+        height: 40px;
         flex-grow: 1;
         background: transparent;
         border: none;
