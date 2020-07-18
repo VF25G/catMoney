@@ -33,7 +33,6 @@ const tagListModel: TagListModel = {
       } else {
         const tag = this.data.filter(item => item.id === id)[0];
         tag.name = name;
-        tag.id = id;
         this.save();
         return 'success';
       }
