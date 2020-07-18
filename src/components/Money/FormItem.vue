@@ -23,7 +23,6 @@
     @Prop() placeholder?: string;
     //@Prop({required: true}) needDateIcon!: boolean;
 
-    @Watch('value')
     onValueChanged(newValue: string) {
       this.$emit('update:value', newValue);
     }
