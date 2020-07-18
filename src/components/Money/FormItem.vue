@@ -4,7 +4,8 @@
       <!--      <Icon name="date"/>-->
       <span class="date">{{fieldName}}</span>
       <input type="text"
-             v-model="value"
+             :value="value"
+             @input="onValueChanged($event.target.value)"
              :placeholder="placeholder">
     </label>
   </div>
@@ -16,7 +17,7 @@
 
   @Component
   export default class FormItem extends Vue {
-    @Prop({default: ''}) value!: string;
+    @Prop({default: ''}) readonly value!: string;
 
     @Prop({required: true}) fieldName!: string;
     @Prop() placeholder?: string;
