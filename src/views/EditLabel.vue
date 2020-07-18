@@ -5,9 +5,11 @@
       <span class="title">编辑标签</span>
       <span class="rightIcon"></span>
     </div>
-    <FormItem :value="tag.name" field-name="标签名" placeholder="请输入标签名"/>
+    <FormItem :value="tag.name"
+              @update:value="update"
+              field-name="标签名" placeholder="请输入标签名"/>
     <div class="buttonWrapper">
-      <CustomButton>删除标签</CustomButton>
+      <CustomButton @click="remove">删除标签</CustomButton>
     </div>
   </Layout>
 </template>
@@ -36,6 +38,17 @@
         this.$router.replace('/404');
       }
     }
+
+    update(name: string) {
+      if (this.tag) {
+        tagListModel.update(this.tag.id, name);
+      }
+    }
+    remove(){
+      if(this.tag){
+        tagListModel.remove(this.tag.id);
+      }
+    }
   }
 </script>
 
@@ -48,23 +61,28 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     > .title {
 
     }
+
     > .leftIcon {
       width: 24px;
       height: 24px;
     }
+
     > .rightIcon {
       width: 24px;
       height: 24px;
     }
   }
+
   .fromWrapper {
     background: #FFFFFF;
     margin-top: 8px;
   }
-  .buttonWrapper{
+
+  .buttonWrapper {
     text-align: center;
     padding: 16px;
     margin-top: 44-16px;
