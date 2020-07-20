@@ -24,14 +24,12 @@
   import eventBus from '@/components/EventBus';
 
   @Component({
-    components: {NumberPad, FormItem, Tags, Amount, Types},
-    computed: {
-      recordList() {
-        return this.$store.state.recordList;
-      }
-    }
+    components: {NumberPad, FormItem, Tags, Amount, Types}
   })
   export default class Money extends Vue {
+    get recordList() {
+      return this.$store.state.recordList;
+    }
 
     record: RecordItem = {
       // 能力有限，Tags.vue默认选择餐饮，暂时没想到更好的方案。
