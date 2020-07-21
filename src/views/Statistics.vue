@@ -3,7 +3,7 @@
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
     <ol>
       <li v-for="(group, index) in groupedList" :key="index">
-        <h3 class="title">{{beautify(group.title)}}</h3>
+        <h3 class="title">{{beautify(group.title)}} <span>¥{{group.total}}</span></h3>
         <ol>
           <li v-for="item in group.items" :key="item.id"
               class="record">
@@ -22,7 +22,6 @@
   import Types from '@/components/Money/Types.vue';
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
-  import intervalList from '@/constants/intervalList';
   import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
@@ -55,8 +54,11 @@
       const {recordList} = this;
       if (recordList.length === 0) { return []; }
 
-      const sortList = clone(recordList).sort((leftRecord, rightRecord) => dayjs(rightRecord.createdAt).valueOf() - dayjs(leftRecord.createdAt).valueOf());
-      const result = [{title: dayjs(sortList[0].createdAt).format('YYYY-MM-DD'), items: [sortList[0]]}];
+      const sortList = clone(recordList)
+        .filter(record => record.type === this.type)
+        .sort((leftRecord, rightRecord) => dayjs(rightRecord.createdAt).valueOf() - dayjs(leftRecord.createdAt).valueOf());
+      type Result = { title: string; total?: number; items: RecordItem[] }[];
+      const result: Result = [{title: dayjs(sortList[0].createdAt).format('YYYY-MM-DD'), items: [sortList[0]]}];
       for (let i = 1; i < sortList.length; i++) {
         const current = sortList[i];
         const last = result[result.length - 1];
@@ -66,6 +68,9 @@
           result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
         }
       }
+      result.map(group => {
+        group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
+      });
       return result;
     }
 
