@@ -1,9 +1,8 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
     <ol>
-      <li v-for="(group, index) in result" :key="index">
+      <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">{{beautify(group.title)}}</h3>
         <ol>
           <li v-for="item in group.items" :key="item.id"
@@ -52,14 +51,22 @@
       return (this.$store.state as RootState).recordList;
     }
 
-    get result() {
+    get groupedList() {
       const {recordList} = this;
-      type HashTableValue = { title: string; items: RecordItem[]}
+      if (recordList.length === 0) { return []; }
 
-      const sortList = clone(recordList).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
-
-
-      return []
+      const sortList = clone(recordList).sort((leftRecord, rightRecord) => dayjs(rightRecord.createdAt).valueOf() - dayjs(leftRecord.createdAt).valueOf());
+      const result = [{title: dayjs(sortList[0].createdAt).format('YYYY-MM-DD'), items: [sortList[0]]}];
+      for (let i = 1; i < sortList.length; i++) {
+        const current = sortList[i];
+        const last = result[result.length - 1];
+        if (dayjs(last.title).isSame(dayjs(current.createdAt), 'day')) {
+          last.items.push(current);
+        } else {
+          result.push({title: dayjs(current.createdAt).format('YYYY-MM-DD'), items: [current]});
+        }
+      }
+      return result;
     }
 
     beforeCreate() {
@@ -67,8 +74,6 @@
     }
 
     type = '-';
-    interval = 'day';
-    intervalList = intervalList;
     recordTypeList = recordTypeList;
   }
 </script>
@@ -76,10 +81,10 @@
 <style scoped lang="scss">
   ::v-deep {
     .type-tabs-item {
-      background: white;
+      background: #C4C4C4;
 
       &.selected {
-        background: #C4C4C4;
+        background: #FFFFFF;
 
         &::after {
           display: none;
