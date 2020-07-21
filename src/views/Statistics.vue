@@ -25,18 +25,20 @@
 </script>
 
 <style scoped lang="scss">
-  ::v-deep .type-tabs-item {
-    background: white;
+  ::v-deep {
+    .type-tabs-item {
+      background: white;
 
-    &.selected {
-      background: #C4C4C4;
+      &.selected {
+        background: #C4C4C4;
 
-      &::after {
-        display: none;
+        &::after {
+          display: none;
+        }
       }
     }
-  }
-  ::v-deep .interval-tabs-item {
-    height: 48px;
+    .interval-tabs-item {
+      height: 48px;
+    }
   }
 </style>
