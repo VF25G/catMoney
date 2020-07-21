@@ -4,16 +4,52 @@
     <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
     <ol>
       <li v-for="(group, index) in result" :key="index">
-        <h3>{{group.title}}</h3>
+        <h3 class="title">{{group.title}}</h3>
         <ol>
-          <li v-for="item in group.items" :key="item.id">
-            {{item.amount}} {{item.createdAt}}
+          <li v-for="item in group.items" :key="item.id"
+              class="record">
+            <span class="tags">{{item.tags}}</span>
+            <span class="notes">{{item.notes}}</span>
+            <span>¥{{item.amount}}</span>
           </li>
         </ol>
       </li>
     </ol>
   </Layout>
 </template>
+
+<style scoped lang="scss">
+  %item {
+    padding: 8px 16px;
+    line-height: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+  }
+
+  .title {
+    @extend %item;
+  }
+
+  .record {;
+    background: white;
+    @extend %item;
+  }
+
+  .tags {
+    white-space: nowrap;
+  }
+
+  .notes {
+    margin-right: auto;
+    margin-left: 8px;
+    color: #999999;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+</style>
 
 <script lang="ts">
   import Vue from 'vue';
