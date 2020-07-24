@@ -9,6 +9,7 @@
                         receiptTagsList"
           class="tags"/>
     <FormItem field-name="备注" placeholder="请输入备注信息" :value.sync="record.notes"/>
+    <FormItem type="date" field-name="日期" placeholder="请输入日期" :value.sync="record.createdAt"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord" class="numberPad"/>
   </div>
 </template>
@@ -34,7 +35,7 @@
     record: RecordItem = {
       // 能力有限，Tags.vue默认选择餐饮，暂时没想到更好的方案。
       // tags需初始化为'餐饮'
-      tags: '餐饮', notes: '', type: '-', amount: 0
+      tags: '餐饮', notes: '', type: '-', amount: 0, createdAt: new Date().toISOString()
     };
 
     disburseTagsList = [
