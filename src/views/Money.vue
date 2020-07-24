@@ -76,6 +76,7 @@
 
     saveRecord() {
       this.$store.commit('createRecord', this.record);
+      this.record.notes = '';
     }
   }
 </script>
