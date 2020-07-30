@@ -1,12 +1,20 @@
 <template>
   <Layout>
+    <header class="headerInfo">
+      <div class="monthlyTotal">
+        <span>本月支出</span>
+        <span>¥100000</span>
+        <span>本月收入：¥10000</span>
+      </div>
+      <div class="appName"><div>猫咪</div><div>记账</div></div>
+    </header>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <div class="chart-wrapper" ref="chartWrapper">
-      <Chart class="chart" :options="chartOptions"/>
-    </div>
+    <!--    <div class="chart-wrapper" ref="chartWrapper">-->
+    <!--      <Chart class="chart" :options="chartOptions"/>-->
+    <!--    </div>-->
     <ol v-if="groupedList.length>0">
       <li v-for="(group, index) in groupedList" :key="index">
-        <h3 class="title">{{beautify(group.title)}} <span>¥{{group.total}}</span></h3>
+        <h4 class="title">{{beautify(group.title)}} <span>¥{{group.total}}</span></h4>
         <ol>
           <li v-for="item in group.items" :key="item.id"
               class="record">
@@ -18,7 +26,7 @@
       </li>
     </ol>
     <div v-else class="noResult">
-      目前没有相关记录
+      <h4>目前没有相关记录</h4>
     </div>
   </Layout>
 </template>
@@ -164,6 +172,70 @@
 </script>
 
 <style scoped lang="scss">
+  .headerInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: #FFD7D3;
+    .monthlyTotal {
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0 0 20px;
+
+
+      span:first-child {
+        font-size: 16px;
+        color: #C69086;
+      }
+
+      span:nth-child(2) {
+        font-size: 36px;
+        font-weight: bold;
+        color: #8A2E1A;
+      }
+
+      span:nth-child(3) {
+        font-size: 14px;
+        color: #C69086;
+      }
+    }
+    .appName {
+      //border: 1px solid red;
+      padding-top: 12px;
+      padding-right: 14px;
+      color: #C69086;
+      font-size: 36px;
+      z-index: 1;
+    }
+  }
+
+  h4 {
+    font-weight: bold;
+
+    span {
+      color: #FF736D;
+    }
+  }
+
+  ol {
+    position: relative;
+    background: white;
+
+    li::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50px;
+      width: 80%;
+      height: 1px;
+      background: #DFDFDF;
+    }
+
+    li > span:nth-child(3) {
+      color: #FF736D;
+    }
+  }
+
   .noResult {
     padding: 16px;
     text-align: center;
@@ -171,10 +243,11 @@
 
   ::v-deep {
     .type-tabs-item {
-      background: #C4C4C4;
+      background: #FFD7D3;
 
       &.selected {
-        background: #FFFFFF;
+        background: #FFD7D3;
+        color: #8A2E1A;
 
         &::after {
           display: none;

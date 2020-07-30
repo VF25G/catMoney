@@ -39,10 +39,10 @@
     display: flex;
     text-align: center;
     font-size: 24px;
+    color: #C69086;
 
     &-item {
       width: 50%;
-      height: 64px;
       display: flex;
       justify-content: center;
       align-items: center;
