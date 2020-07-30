@@ -6,13 +6,12 @@
           :current-type="selectedType"
           :data-source="selectedType === '-'?
                         disburseTagsList:
-                        receiptTagsList"
-          class="tags"/>
+                        receiptTagsList"/>
     <div class="formContainer">
-      <FormItem type="date" field-name="日期" placeholder="请输入日期" :value.sync="record.createdAt"/>
+      <FormItem type="date" field-name="" placeholder="请输入日期" :value.sync="record.createdAt"/>
       <FormItem field-name="备注" placeholder="请输入备注信息" :value.sync="record.notes"/>
     </div>
-    <NumberPad :value.sync="record.amount" @submit="saveRecord" class="numberPad"/>
+    <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
   </div>
 </template>
 
@@ -97,17 +96,28 @@
     display: flex;
     padding-bottom: 8px;
     background: #FFFFFF;
+
+    position: fixed;
+    bottom: 210px;
+    left: 0;
+    width: 100vw;
   }
 
   .fromWrapper {
     background: #FFFFFF;
-    width: 50vw;
-    /*padding: 12px 0;*/
+    max-width: 50vw;
   }
 
-  // tags 内容区域自动拉伸
   .tags {
-    flex-grow: 3;
+    /*flex-grow: 3;*/   // tags 内容区域自动拉伸
+    padding-bottom: 80+56*5+12px;
+  }
+
+  .numberPad {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
   }
 
 </style>
