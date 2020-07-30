@@ -1,5 +1,5 @@
 <template>
-  <div class="tagsWrapper">
+<!--  <div class="tagsWrapper">-->
     <ul class="tags">
       <TagsItems v-for="(value, index) in dataSource"
                  :key="index"
@@ -8,9 +8,10 @@
                  :class="[selectedIndex === index ? 'selected' : '',
                           currentType === '+' ? 'income' : '']"
                  :icon-name="value.icon" :name="value.name"/>
-      <TagsItems class="append" icon-name="append" name="添加"/>
+<!--      TODO-->
+<!--      <TagsItems class="append" icon-name="append" name="添加"/>-->
     </ul>
-  </div>
+<!--  </div>-->
 </template>
 
 <script lang="ts">
@@ -78,40 +79,37 @@
 <style lang="scss" scoped>
   @import "~@/assets/style/helper.scss";
 
-  .tagsWrapper {
+  .tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 18px;
+
     margin-top: 8px;
     background: #FFFFFF;
     overflow: auto;
-
-    .tags {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      padding: 18px;
-    }
   }
 </style>
 
 <style lang="scss">
-  .tagsWrapper {
-    .tags {
-      .selected {
-        .circleIcon {
-          background: #FF736D;
+  .tags {
+    .selected {
+      .circleIcon {
+        background: #FF736D;
 
-          .icon {
-            color: #FFFFFF;
-          }
+        .icon {
+          color: #FFFFFF;
         }
       }
+    }
 
-      .selected.income {
-        .circleIcon {
-          background: #00D795;
+    .selected.income {
+      .circleIcon {
+        background: #00D795;
 
-          .icon {
-            color: #FFFFFF;
-          }
+        .icon {
+          color: #FFFFFF;
         }
       }
     }
