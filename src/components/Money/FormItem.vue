@@ -21,7 +21,7 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Prop, Watch} from 'vue-property-decorator';
+  import {Component, Prop} from 'vue-property-decorator';
   import dayjs from 'dayjs';
 
   @Component
@@ -49,13 +49,14 @@
     .notes {
       display: flex;
       align-items: center;
-      padding-left: 20px;
+      /*padding-left: 20px;*/
       font-size: 12px;
 
       .name {
         padding-left: 6px;
         padding-right: 6px;
         color: #2E3544;
+        white-space: nowrap;
       }
 
       .icon {

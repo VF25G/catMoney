@@ -8,8 +8,10 @@
                         disburseTagsList:
                         receiptTagsList"
           class="tags"/>
-    <FormItem field-name="备注" placeholder="请输入备注信息" :value.sync="record.notes"/>
-    <FormItem type="date" field-name="日期" placeholder="请输入日期" :value.sync="record.createdAt"/>
+    <div class="formContainer">
+      <FormItem type="date" field-name="日期" placeholder="请输入日期" :value.sync="record.createdAt"/>
+      <FormItem field-name="备注" placeholder="请输入备注信息" :value.sync="record.notes"/>
+    </div>
     <NumberPad :value.sync="record.amount" @submit="saveRecord" class="numberPad"/>
   </div>
 </template>
@@ -91,9 +93,16 @@
     flex-direction: column;
   }
 
+  .formContainer {
+    display: flex;
+    padding-bottom: 8px;
+    background: #FFFFFF;
+  }
+
   .fromWrapper {
     background: #FFFFFF;
-    padding: 12px 0;
+    width: 50vw;
+    /*padding: 12px 0;*/
   }
 
   // tags 内容区域自动拉伸
