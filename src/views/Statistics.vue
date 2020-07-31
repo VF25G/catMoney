@@ -2,16 +2,16 @@
   <Layout>
     <header class="headerInfo">
       <div class="monthlyTotal">
-        <span>本月支出</span>
-        <span>¥100000</span>
-        <span>本月收入：¥10000</span>
+        <span>总支出</span>
+        <span>¥{{payTotal}}</span>
+        <span>总收入：¥{{incomeTotal}}</span>
       </div>
-      <div class="appName"><div>猫咪</div><div>记账</div></div>
+      <div class="appName">
+        <div>猫咪</div>
+        <div>记账</div>
+      </div>
     </header>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <!--    <div class="chart-wrapper" ref="chartWrapper">-->
-    <!--      <Chart class="chart" :options="chartOptions"/>-->
-    <!--    </div>-->
     <ol v-if="groupedList.length>0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h4 class="title">{{beautify(group.title)}} <span>¥{{group.total}}</span></h4>
@@ -37,19 +37,20 @@
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constants/recordTypeList';
-  import Chart from '@/components/Chart.vue';
   import dayjs from 'dayjs';
-  import day from 'dayjs';
   import clone from '@/lib/clone';
-  import _ from 'lodash';
 
   @Component({
-    components: {Tabs, Types, Chart}
+    components: {Tabs, Types}
   })
   export default class Statistics extends Vue {
+    type = '-';
+    recordTypeList = recordTypeList;
+    payTotal = 0;
+    incomeTotal = 0;
+
     mounted() {
-      const div = (this.$refs.chartWrapper as HTMLDivElement);
-      div.scrollLeft = div.scrollWidth;
+      this.monthlyTotal;
     }
 
     beautify(string: string) {
@@ -68,74 +69,28 @@
       }
     }
 
-    get keyValueList() {
-      const today = new Date();
-      const array = [];
-      for (let i = 0; i <= 29; i++) {
-        const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD');
-        const found = _.find(this.groupedList, {
-          title: dateString
-        });
-        array.push({
-          key: dateString, value: found ? found.total : 0
-        });
-      }
-      array.sort((a, b) => {
-        if (a.key > b.key) {
-          return 1;
-        } else if (a.key === b.key) {
-          return 0;
-        } else {
-          return -1;
-        }
-      });
-      console.log(array);
-      console.log(this.recordList.map(r => _.pick(r, ['createdAt', 'amount'])));
-      return array;
-    }
-
-    get chartOptions() {
-
-      const keys = this.keyValueList.map(item => item.key);
-      const values = this.keyValueList.map(item => item.value);
-      return {
-        grid: {
-          left: 0,
-          right: 0
-        },
-        xAxis: {
-          type: 'category',
-          data: keys,
-          axisTick: {alignWithLabel: true},
-          axisLine: {lineStyle: {color: '#666'}},
-          axisLabel: {
-            formatter: function (value: string) {
-              return value.substr(5);
-            }
-          }
-        },
-        yAxis: {
-          type: 'value',
-          show: false
-        },
-        series: [{
-          symbolSize: 12,
-          symbol: 'circle',
-          itemStyle: {borderWidth: 1, color: '#666'},
-          data: values,
-          type: 'line'
-        }],
-        tooltip: {
-          show: true,
-          triggerOn: 'click',
-          position: 'top',
-          formatter: '{c}'
-        }
-      };
-    }
-
     get recordList() {
       return (this.$store.state as RootState).recordList;
+    }
+
+    get monthlyTotal() {
+      const {recordList} = this;
+
+      const paySortList = clone(recordList)
+        .filter(record => record.type === '-');
+      const incomeSortList = clone(recordList)
+        .filter(record => record.type === '+');
+      if (paySortList.length !== 0) {
+        paySortList.map(current => {
+          this.payTotal += current.amount;
+        });
+      }
+      if (incomeSortList.length !== 0) {
+        incomeSortList.map(record => {
+          this.incomeTotal += record.amount;
+        });
+      }
+      return {'payTotal': this.payTotal, 'incomeTotal': this.incomeTotal};
     }
 
     get groupedList() {
@@ -165,9 +120,6 @@
     beforeCreate() {
       this.$store.commit('fetchRecords');
     }
-
-    type = '-';
-    recordTypeList = recordTypeList;
   }
 </script>
 
@@ -177,6 +129,7 @@
     flex-direction: row;
     justify-content: space-between;
     background: #FFD7D3;
+
     .monthlyTotal {
       display: flex;
       flex-direction: column;
@@ -199,6 +152,7 @@
         color: #C69086;
       }
     }
+
     .appName {
       //border: 1px solid red;
       padding-top: 12px;
@@ -291,15 +245,4 @@
     text-overflow: ellipsis;
   }
 
-  .chart {
-    width: 430%;
-
-    &-wrapper {
-      overflow: auto;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-  }
 </style>
