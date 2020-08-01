@@ -10,7 +10,7 @@
     </router-link>
     <router-link to="/labels" class="item" active-class="selected">
       <Icon name="label"/>
-      标签
+      报表
     </router-link>
   </nav>
 </template>
