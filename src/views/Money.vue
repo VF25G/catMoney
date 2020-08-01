@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <Types :value.sync="record.type"/>
+    <Types :value.sync="record.type" show-cancel="true"/>
     <Amount :current-type="selectedType"/>
     <Tags :value.sync="record.tags"
           :current-type="selectedType"

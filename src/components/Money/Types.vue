@@ -7,7 +7,7 @@
       <li class="right" :class="type === '+' && 'selected'"
           @click="selectType('+')">流入
       </li>
-      <li class="cancel">
+      <li v-show="showCancel" class="cancel">
         <router-link class="routerLink" to="/statistics">
           <Icon name="cancel"/>
         </router-link>
@@ -18,13 +18,14 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Watch} from 'vue-property-decorator';
+  import {Component, Prop, Watch} from 'vue-property-decorator';
   import eventBus from '@/components/EventBus';
 
   @Component
 
   export default class Types extends Vue {
     type = '-'; //'-'支出，'+'收入
+    @Prop(Boolean) showCancel?: boolean;
     selectType(type: string) { // type : '-' or '+'
       if (type !== '-' && type !== '+') {
         throw new Error('type is unknown');
