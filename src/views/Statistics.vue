@@ -11,7 +11,7 @@
         <div>记账</div>
       </div>
     </header>
-    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+    <Types :value.sync="type"/>
     <ol v-if="groupedList.length>0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h4 class="title">{{beautify(group.title)}} <span>¥{{group.total}}</span></h4>
@@ -35,17 +35,14 @@
   import Vue from 'vue';
   import Types from '@/components/Money/Types.vue';
   import {Component} from 'vue-property-decorator';
-  import Tabs from '@/components/Tabs.vue';
-  import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
 
   @Component({
-    components: {Tabs, Types}
+    components: {Types}
   })
   export default class Statistics extends Vue {
     type = '-';
-    recordTypeList = recordTypeList;
     payTotal = 0;
     incomeTotal = 0;
 
@@ -195,25 +192,6 @@
     text-align: center;
   }
 
-  ::v-deep {
-    .type-tabs-item {
-      background: #FFD7D3;
-
-      &.selected {
-        background: #FFD7D3;
-        color: #8A2E1A;
-
-        &::after {
-          display: none;
-        }
-      }
-    }
-
-    .interval-tabs-item {
-      height: 48px;
-    }
-  }
-
   %item {
     padding: 8px 16px;
     line-height: 24px;
@@ -245,4 +223,15 @@
     text-overflow: ellipsis;
   }
 
+  ::v-deep {
+    .typesWrapper {
+      background: #FFD7D3;
+      .types {
+        li {
+          margin-top: 0;
+          margin-bottom: 2px;
+        }
+      }
+    }
+  }
 </style>
