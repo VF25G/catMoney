@@ -125,7 +125,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background: #FFD7D3;
+    background: #FFE7E4;
 
     .monthlyTotal {
       display: flex;
@@ -225,7 +225,6 @@
 
   ::v-deep {
     .typesWrapper {
-      background: #FFD7D3;
       .types {
         li {
           margin-top: 0;
