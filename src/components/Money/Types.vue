@@ -25,7 +25,7 @@
 
   export default class Types extends Vue {
     type = '-'; //'-'支出，'+'收入
-    @Prop(Boolean) showCancel?: boolean;
+    @Prop() showCancel?: boolean;
     selectType(type: string) { // type : '-' or '+'
       if (type !== '-' && type !== '+') {
         throw new Error('type is unknown');

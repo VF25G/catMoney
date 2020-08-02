@@ -9,7 +9,7 @@ const disburseTagsList = [
   {icon: 'car', name: '汽车'},
   {icon: 'communication', name: '通讯'},
   {icon: 'parenting', name: '育儿'}
-];
+] as IconTag[];
 
 const receiptTagsList = [
   {icon: 'salary', name: '薪资'},
@@ -22,6 +22,6 @@ const receiptTagsList = [
   {icon: 'reimbursement', name: '报销收入'},
   {icon: 'drawback', name: '退款'},
   {icon: 'windfall', name: '意外所得'}
-];
+] as IconTag[];
 
 export {disburseTagsList, receiptTagsList}

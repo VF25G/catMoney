@@ -3,61 +3,97 @@
     <div class="wrapper">
       <header><span>报表</span></header>
       <div class="chart">
-        <Types/>
+        <Types :value.sync="type"/>
         <div id="figure"></div>
       </div>
-      <ol class="subItems">
-        <li>
-          <TagsItems icon-name="food"/>
-          <span>餐饮 80%</span><span>¥500</span></li>
-        <li>
-          <TagsItems icon-name="food"/>
-          <span>餐饮 80%</span><span>¥500</span></li>
-        <li>
-          <TagsItems icon-name="food"/>
-          <span>餐饮 80%</span><span>¥500</span></li>
-        <li>
-          <TagsItems icon-name="food"/>
-          <span>餐饮 80%</span><span>¥500</span></li>
-        <li>
-          <TagsItems icon-name="food"/>
-          <span>餐饮 80%</span><span>¥500</span></li>
-        <li>
-          <TagsItems icon-name="food"/>
-          <span>餐饮 80%</span><span>¥500</span></li>
-        <li>
-          <TagsItems icon-name="food"/>
-          <span>餐饮 80%</span><span>¥500</span></li>
-        <li>
-          <TagsItems icon-name="food"/>
-          <span>餐饮 80%</span><span>¥500</span></li>
-        <li>
-          <TagsItems icon-name="food"/>
-          <span>餐饮 80%</span><span>¥500</span></li>
-        <li>
-          <TagsItems icon-name="food"/>
-          <span>餐饮 80%</span><span>¥500</span></li>
+      <ol v-if="sortedTotal.length > 0" class="subItems">
+        <li v-for="(item, index) in sortedTotal"
+            :key="index">
+          <TagsItems :icon-name="item.iconName"/>
+          <span>{{item.name}}</span><span>¥{{item.value}}</span>
+        </li>
       </ol>
+      <div v-else class="noResult">
+        <h4>没有相关记录</h4>
+      </div>
     </div>
   </Layout>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Watch} from 'vue-property-decorator';
   import echarts from 'echarts';
   import Types from '@/components/Money/Types.vue';
   import TagsItems from '@/components/Money/TagsItems.vue';
+  import clone from '@/lib/clone';
+  import {disburseTagsList, receiptTagsList} from '@/constants/defaultTags';
+
 
   @Component({
     components: {TagsItems, Types}
   })
   export default class Report extends Vue {
+    type = '-';
+
+    beforeCreate() {
+      this.$store.commit('fetchRecords');
+    }
+
     mounted() {
       this.draw();
     }
 
+    searchIconName(key: string, array: IconTag[]) {
+      for (let i = 0; i < array.length; i++) {
+        if (array[i].name === key) {
+          return array[i].icon;
+        }
+      }
+    }
+
+    get recordList() {
+      return (this.$store.state as RootState).recordList;
+    }
+
+    get sortedTotal() {
+      const tags: string[] = [];
+      const {recordList} = this;
+      const tagTotalArray: IconTagsArray[] = [];
+
+      const sortList = clone(recordList)
+        .filter(record => record.type === this.type);
+
+      for (let index = 0; index < sortList.length; index++) {
+        const current = sortList[index];
+        const currentName = current.tags.toString()
+        let iconName = '';
+        const tagIndex = tags.indexOf(currentName)
+
+        if (this.type === '-') {
+          iconName = this.searchIconName(currentName, disburseTagsList)!;
+        } else {
+          iconName = this.searchIconName(currentName, receiptTagsList)!;
+        }
+
+        if (tagIndex < 0) {
+          tags.push(currentName)
+          tagTotalArray.push({name:currentName, value:current.amount, iconName:iconName})
+        } else {
+          tagTotalArray[tagIndex].value += current.amount;
+        }
+      }
+      return tagTotalArray;
+    }
+
     draw() {
+      const tagTotalArray = this.sortedTotal
+      const seriesData: {name: string; value: number}[] = [];
+      tagTotalArray.map(item => {
+        seriesData.push({name: item.name, value:item.value})
+      })
+      console.log(seriesData);
+
       const figure = echarts.init(document.getElementById('figure') as HTMLDivElement);
       figure.setOption({
         tooltip: {
@@ -71,7 +107,7 @@
             radius: ['50%', '70%'],
             label: {
               formatter: function (data: any) {
-                return data.name + data.percent.toFixed(0) + '%';
+                return data.name + data.percent.toFixed(1) + '%';
               },
               backgroundColor: '#eee',
               borderColor: '#aaa',
@@ -88,16 +124,14 @@
                 }
               }
             },
-            data: [
-              {value: 335, name: '餐饮'},
-              {value: 310, name: '烟酒'},
-              {value: 234, name: '住房'},
-              {value: 335, name: '餐饮'},
-              {value: 310, name: '烟酒'},
-            ]
+            data: seriesData
           }
         ]
       });
+    }
+    @Watch('type')
+    onTypeChange() {
+      this.draw();
     }
   }
 </script>
@@ -138,6 +172,7 @@
         span:nth-child(2) {
           margin-right: auto;
         }
+
         span:nth-child(3) {
           color: #FF736D;
         }

@@ -46,6 +46,10 @@
     payTotal = 0;
     incomeTotal = 0;
 
+    beforeCreate() {
+      this.$store.commit('fetchRecords');
+    }
+
     mounted() {
       this.monthlyTotal;
     }
@@ -111,11 +115,8 @@
       result.map(group => {
         group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
       });
+      console.log(result);
       return result;
-    }
-
-    beforeCreate() {
-      this.$store.commit('fetchRecords');
     }
   }
 </script>

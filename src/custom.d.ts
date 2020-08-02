@@ -14,6 +14,15 @@ type Tag = {
   id: string;
   name: string;
 }
+type IconTag = {
+  icon: string;
+  name: string;
+}
+type IconTagsArray = {
+  name: string;
+  value: number;
+  iconName: string;
+}
 type TagListModel = {
   data: Tag[];
   fetch: () => Tag[];
