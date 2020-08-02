@@ -110,6 +110,10 @@
         this.stringToNumber(true);
       } else {
         const number = parseFloat(this.output);
+        if (number === 0) {
+          window.alert("请填写金额");
+          return
+        }
         this.$emit('update:value', number);
         this.$emit('submit', number);
         this.output = '0';
