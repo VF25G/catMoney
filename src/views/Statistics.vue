@@ -14,13 +14,13 @@
     <Types :value.sync="type"/>
     <ol v-if="groupedList.length>0">
       <li v-for="(group, index) in groupedList" :key="index">
-        <h4 class="title">{{beautify(group.title)}} <span>¥{{group.total}}</span></h4>
+        <h4 class="title">{{beautify(group.title)}} <span :class="moneyType(type)">¥{{group.total}}</span></h4>
         <ol>
           <li v-for="item in group.items" :key="item.id"
               class="record">
             <span class="tags">{{item.tags}}</span>
             <span class="notes">{{item.notes}}</span>
-            <span>¥{{item.amount}}</span>
+            <span :class="moneyType(type)">¥{{item.amount}}</span>
           </li>
         </ol>
       </li>
@@ -68,6 +68,10 @@
       } else {
         return day.format('YYYY年M月D日');
       }
+    }
+
+    moneyType(type: string) {
+      return type === '-' ? 'payMoney' : 'incomeMoney'
     }
 
     get recordList() {
@@ -164,8 +168,11 @@
   h4 {
     font-weight: bold;
 
-    span {
+    span.payMoney {
       color: #FF736D;
+    }
+    span.incomeMoney {
+      color: #00AB7C;
     }
   }
 
@@ -183,8 +190,12 @@
       background: #DFDFDF;
     }
 
-    li > span:nth-child(3) {
+    li > span.payMoney {
       color: #FF736D;
+    }
+
+    li > span.incomeMoney {
+      color: #00AB7C;
     }
   }
 
