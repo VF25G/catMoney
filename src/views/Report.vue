@@ -9,8 +9,8 @@
       <ol v-if="sortedTotal.length > 0" class="subItems">
         <li v-for="(item, index) in sortedTotal"
             :key="index">
-          <TagsItems :icon-name="item.iconName"/>
-          <span>{{item.name}}</span><span>¥{{item.value}}</span>
+          <TagsItems :icon-name="item.iconName" :class="moneyType(type)"/>
+          <span>{{item.name}}</span><span :class="moneyType(type)">¥{{item.value}}</span>
         </li>
       </ol>
       <div v-else class="noResult">
@@ -42,6 +42,10 @@
 
     mounted() {
       this.draw();
+    }
+
+    moneyType(type: string) {
+      return type === '-' ? 'payMoney' : 'incomeMoney'
     }
 
     searchIconName(key: string, array: IconTag[]) {
@@ -173,8 +177,11 @@
           margin-right: auto;
         }
 
-        span:nth-child(3) {
+        span.payMoney {
           color: #FF736D;
+        }
+        span.incomeMoney {
+          color: #00AB7C;
         }
       }
     }
@@ -195,6 +202,11 @@
 
         .icon {
           color: #FFFFFF;
+        }
+      }
+      &.incomeMoney {
+        .circleIcon {
+          background: #00AB7C;
         }
       }
     }
