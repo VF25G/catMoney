@@ -2,17 +2,19 @@
   <Layout>
     <div class="wrapper">
       <header><span>报表</span></header>
-      <div class="chart">
-        <Types :value.sync="type"/>
-        <div id="figure"></div>
-      </div>
-      <ol v-if="sortedTotal.length > 0" class="subItems">
-        <li v-for="(item, index) in sortedTotal"
-            :key="index">
-          <TagsItems :icon-name="item.iconName" :class="moneyType(type)"/>
-          <span>{{item.name}}</span><span :class="moneyType(type)">¥{{item.value}}</span>
-        </li>
-      </ol>
+      <template v-if="sortedTotal.length > 0">
+        <div class="chart">
+          <Types :value.sync="type"/>
+          <div id="figure"></div>
+        </div>
+        <ol class="subItems">
+          <li v-for="(item, index) in sortedTotal"
+              :key="index">
+            <TagsItems :icon-name="item.iconName" :class="moneyType(type)"/>
+            <span>{{item.name}}</span><span :class="moneyType(type)">¥{{item.value}}</span>
+          </li>
+        </ol>
+      </template>
       <div v-else class="noResult">
         <h4>没有相关记录</h4>
       </div>
@@ -185,6 +187,14 @@
         }
       }
     }
+
+    .noResult {
+      padding: 16px;
+      text-align: center;
+      h4 {
+        font-weight: bold;
+      }
+    }
   }
 
   ::v-deep {
@@ -206,7 +216,7 @@
       }
       &.incomeMoney {
         .circleIcon {
-          background: #00AB7C;
+          background: #00D795;
         }
       }
     }
