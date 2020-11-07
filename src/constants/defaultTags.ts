@@ -8,7 +8,17 @@ const disburseTagsList = [
   {icon: 'education', name: '文教'},
   {icon: 'car', name: '汽车'},
   {icon: 'communication', name: '通讯'},
-  {icon: 'parenting', name: '育儿'}
+  {icon: 'parenting', name: '育儿'},
+  {icon: 'present', name: '人情'},
+  {icon: 'medical', name: '医疗'},
+  {icon: 'journey', name: '旅行'},
+  {icon: 'invest', name: '投资'},
+  {icon: 'deficit', name: '投资亏损'},
+  {icon: 'loan', name: '借出'},
+  {icon: 'debt', name: '还债'},
+  {icon: 'accrual', name: '利息支出'},
+  {icon: 'donation', name: '捐款'},
+  {icon: 'rests', name: '其他'}
 ] as IconTag[];
 
 const receiptTagsList = [
