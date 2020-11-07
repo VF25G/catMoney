@@ -40,11 +40,11 @@
     }
 
     mounted() {
-      console.log('mounted: ' + this.currentTagName);
+      //console.log('mounted: ' + this.currentTagName);
     }
 
     updated() {
-      console.log('updated: ' + this.currentTagName);
+      //console.log('updated: ' + this.currentTagName);
     }
 
     setSelectedIndex(index: number,) {

@@ -98,7 +98,7 @@
       tagTotalArray.map(item => {
         seriesData.push({name: item.name, value:item.value})
       })
-      console.log(seriesData);
+      // console.log(seriesData);
 
       const figure = echarts.init(document.getElementById('figure') as HTMLDivElement);
       figure.setOption({

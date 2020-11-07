@@ -119,7 +119,7 @@
       result.map(group => {
         group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
       });
-      console.log(result);
+      // console.log(result);
       return result;
     }
   }
